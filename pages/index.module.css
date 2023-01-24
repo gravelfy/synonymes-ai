@@ -61,7 +61,21 @@
   text-align: center;
   cursor: pointer;
 }
+
 .main .result {
   font-weight: bold;
   margin-top: 40px;
+
+}
+
+.main .synonymes {
+width: 90%;
+}
+
+.main .query {
+  float: left;
+  font-weight: bold;
+  font-size: x-large;
+  margin-top: 40px;
+margin-left: auto;
 }
