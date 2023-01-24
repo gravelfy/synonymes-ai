@@ -6,13 +6,56 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function (req, res) {
-  const completion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: generatePrompt(req.body.animal),
-    max_tokens: 300,
-    temperature: 0.6,
-  });
-  res.status(200).json({ result: completion.data.choices[0].text });
+  if (!configuration.apiKey) {
+    res.status(500).json({
+      error: {
+        message:
+          'OpenAI API key not configured, please follow instructions in README.md',
+      },
+    });
+    return;
+  }
+
+  const query = req.body.query || '';
+  if (query.trim().length === 0) {
+    res.status(400).json({
+      error: {
+        message: 'Veuillez entrer une expression valide.',
+      },
+    });
+    return;
+  }
+
+  try {
+    const completion = await openai.createCompletion({
+      model: 'text-davinci-003',
+      prompt: generatePrompt(query),
+      max_tokens: 300,
+      temperature: 0.6,
+    });
+
+    const elementsArray = completion.data.choices[0].text.split(', ');
+
+    // res.status(200).json({ result: resultMarkup });
+    res.status(200).json({
+      result: completion.data.choices[0].text,
+      elements: elementsArray,
+      query: query,
+    });
+  } catch (error) {
+    // Consider adjusting the error handling logic for your use case
+    if (error.response) {
+      console.error(error.response.status, error.response.data);
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      console.error(`Error with OpenAI API request: ${error.message}`);
+      res.status(500).json({
+        error: {
+          message: 'An error occurred during your request.',
+        },
+      });
+    }
+  }
 }
 
 function generatePrompt(requete) {
@@ -20,9 +63,9 @@ function generatePrompt(requete) {
   //   requete.toUpperCase() + requete.slice(1).toLowerCase();
   return `Suggérer des synonymes pour le mot suivant.
 Mot: Travailler
-Synonymes: Œuvrer, s'activer, s'employer, opérer, fonctionner, s'efforcer, s'appliquer, s'exercer, s'occuper, s'atteller, s'adonner, s'astreindre, se consacrer.
+Synonymes: œuvrer, s'activer, s'employer, opérer, fonctionner, s'efforcer, s'appliquer, s'exercer, s'occuper, s'atteller, s'adonner, s'astreindre, se consacrer
 Mot: ouvrage
-Synonymes: Livre, publication, écrit, manuscrit, traité, opuscule, recueil, volume, livret, brochure.
+Synonymes: livre, publication, écrit, manuscrit, traité, opuscule, recueil, volume, livret, brochure
 Mot: murmurer
 Synonymes: babiller,  bafouiller,  balbutier,  baragouiner,  bougonner,  bourdonner,  bredouiller,  broncher,  bruire,  chanter,  couler,  dire,  frémir,  fredonner,  froufrouter,  gémir,  gazouiller,  geindre,  gringotter,  grognasser,  grogner,  grognonner,  grommeler,  gronder,  groumer,  mâchouiller,  marmonner,  marmotter,  maronner,  maugréer,  parler bas,  prononcer,  protester,  râler,  rechigner,  renauder,  rogner,  rognonner,  ronchonner,  ronfler,  rouscailler,  rouspéter,  se lamenter,  se plaindre,  souffler
 Mot: chanter
