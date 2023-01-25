@@ -4,17 +4,17 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 export default function Home() {
+  const NB_SYN_COLUMNS = 5;
   const [queryInput, setQueryInput] = useState('');
   const [queryString, setQueryString] = useState('');
   const [result, setResult] = useState();
   const [elements, setElements] = useState([]);
   const [synLines, setSynLines] = useState(0);
+  const [fetchInProgress, setFetchInProgress] = useState(false);
 
   function updateQuery(el) {
-    console.log('    ' + el);
     // setQueryString((queryString) => el);
     setQueryString(el);
-    console.log('           :' + queryString);
   }
 
   useEffect(() => {
@@ -22,12 +22,14 @@ export default function Home() {
     if (queryString.trim().length != 0) {
       executeQuery();
     }
-  }, [queryString]);
+  }, [queryString]);#
 
   useEffect(() => {
     /* it will be called when queues did update */
     console.log('elements: ' + elements);
-    elements.length > 0 ? setSynLines(elements.length / 5) : setSynLines(0);
+    elements.length > 0
+      ? setSynLines(elements.length / NB_SYN_COLUMNS)
+      : setSynLines(0);
     console.log('synLines: ' + synLines);
   }, [elements]);
 
@@ -36,8 +38,16 @@ export default function Home() {
     console.log('synLines: ' + synLines);
   }, [synLines]);
 
+  useEffect(() => {
+    /* it will be called when queues did update */
+    if (fetchInProgress) {
+      setElements([]);
+    }
+  }, [fetchInProgress]);
+
   async function executeQuery() {
     try {
+      setFetchInProgress(true);
       console.log('query: ' + queryString);
       const response = await fetch('/api/generate', {
         method: 'POST',
@@ -49,6 +59,7 @@ export default function Home() {
 
       const data = await response.json();
       if (response.status !== 200) {
+        setFetchInProgress(false);
         throw (
           data.error ||
           new Error(`Request failed with status ${response.status}`)
@@ -57,6 +68,7 @@ export default function Home() {
       setResult(data.result);
       setElements(data.elements);
       setQueryInput('');
+      setFetchInProgress(false);
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
