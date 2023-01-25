@@ -70,8 +70,10 @@
 
 .main .synonymes {
 width: 90%;
+columns: 4 auto;
 }
 
+  cursor: pointer;
 .main .query {
   float: left;
   font-weight: bold;
