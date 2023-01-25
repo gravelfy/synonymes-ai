@@ -22,24 +22,17 @@ export default function Home() {
     if (queryString.trim().length != 0) {
       executeQuery();
     }
-  }, [queryString]);#
+  }, [queryString]);
+
+  // useEffect(() => {
+  //   console.log('elements: ' + elements);
+  // }, [elements]);
+
+  // useEffect(() => {
+  //   console.log('synLines: ' + synLines);
+  // }, [synLines]);
 
   useEffect(() => {
-    /* it will be called when queues did update */
-    console.log('elements: ' + elements);
-    elements.length > 0
-      ? setSynLines(elements.length / NB_SYN_COLUMNS)
-      : setSynLines(0);
-    console.log('synLines: ' + synLines);
-  }, [elements]);
-
-  useEffect(() => {
-    /* it will be called when queues did update */
-    console.log('synLines: ' + synLines);
-  }, [synLines]);
-
-  useEffect(() => {
-    /* it will be called when queues did update */
     if (fetchInProgress) {
       setElements([]);
     }

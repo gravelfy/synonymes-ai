@@ -73,7 +73,11 @@ width: 90%;
 columns: 4 auto;
 }
 
+.main .synonymes a {
   cursor: pointer;
+  text-decoration: underline;
+}
+
 .main .query {
   float: left;
   font-weight: bold;
