@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 
@@ -7,10 +7,14 @@ export default function Home() {
   const NB_SYN_COLUMNS = 5;
   const [queryInput, setQueryInput] = useState('');
   const [queryString, setQueryString] = useState('');
-  const [result, setResult] = useState();
+  const [result, setResult] = useState('');
   const [elements, setElements] = useState([]);
-  const [synLines, setSynLines] = useState(0);
+  const [animIndex, setAnimIndex] = useState(-1);
   const [fetchInProgress, setFetchInProgress] = useState(false);
+
+  const timeoutRef = useRef(setTimeout);
+
+  const queryInputRef = useRef(null);
 
   function updateQuery(el) {
     // setQueryString((queryString) => el);
@@ -18,23 +22,33 @@ export default function Home() {
   }
 
   useEffect(() => {
-    /* it will be called when queues did update */
+    queryInputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
     if (queryString.trim().length != 0) {
       executeQuery();
+      document.getElementById('result').style.visibility = 'visible';
+    } else {
+      document.getElementById('result').style.visibility = 'hidden';
     }
   }, [queryString]);
 
-  // useEffect(() => {
-  //   console.log('elements: ' + elements);
-  // }, [elements]);
-
-  // useEffect(() => {
-  //   console.log('synLines: ' + synLines);
-  // }, [synLines]);
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      animateDots(animIndex);
+      setAnimIndex(animIndex + 1);
+    }, 500);
+  }, [animIndex]);
 
   useEffect(() => {
     if (fetchInProgress) {
+      setAnimIndex(0);
       setElements([]);
+    } else {
+      clearTimeout(timeoutRef.current);
+      document.getElementById('dots').innerHTML = '';
+      queryInputRef.current.focus();
     }
   }, [fetchInProgress]);
 
@@ -69,6 +83,17 @@ export default function Home() {
     }
   }
 
+  // write a function that creates an animation of 3 dots characters flashing at 500 ms intervals
+  function animateDots() {
+    let dots = document.getElementById('dots');
+    let dotsText = dots.innerHTML;
+    if (dotsText.length === 3) {
+      dots.innerHTML = '';
+    } else {
+      dots.innerHTML += '.';
+    }
+  }
+
   function onSubmit(event) {
     event.preventDefault();
     updateQuery(queryInput);
@@ -80,22 +105,24 @@ export default function Home() {
         <title>Synonymes</title>
         <link rel="icon" href="/dog.png" />
       </Head>
-
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
+        {/* <img src="/dog.png" className={styles.icon} /> */}
         <h3>Synonymes</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
             name="query"
-            placeholder="Entrer un mot ou une expression."
+            ref={queryInputRef}
             value={queryInput}
             onChange={(e) => setQueryInput(e.target.value)}
           />
-          <input type="submit" value="Trouver des synonymes" />
+          <input type="submit" value="Trouver" />
         </form>
-        <div className={styles.result}>
-          <div className={styles.query}>Synonymes de: {queryString}</div>
+        <div className={styles.result} id="result">
+          <div className={styles.query}>
+            Synonymes de: {queryString}
+            <div className={styles.dots} id="dots"></div>
+          </div>
           <div className={styles.synonymes}>
             {elements.map((item, index) => (
               <div key={index.toString()}>
@@ -111,6 +138,7 @@ export default function Home() {
             ))}
           </div>
         </div>
+        <div className={styles.credit}>2023 François Y. Gravel</div>
       </main>
     </div>
   );
