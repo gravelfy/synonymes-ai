@@ -138,7 +138,9 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className={styles.credit}>2023 François Y. Gravel</div>
+        <div className={styles.credit}>
+          2023 François Y. Gravel - Fabriqué avec: OpenAI API, React & Next.js
+        </div>
       </main>
     </div>
   );
