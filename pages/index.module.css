@@ -24,7 +24,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 40px;
+  height: 100vh;
 }
 .main .icon {
   width: 34px;
@@ -37,45 +38,90 @@
   margin: 16px 0 40px;
 }
 .main form {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
+  align-items: center;
+  display: inline-block;
+  /* flex-direction: column; */
+   /* width: 100%;  */
 }
 .main input[type="text"] {
+  font-size: 0.7rem;
+vertical-align: top;
+/* width: 320px; */
   padding: 12px 16px;
-  border: 1px solid #10a37f;
+  border: 1px solid #140054;
   border-radius: 4px;
   margin-bottom: 24px;
-  outline-color: #10a37f;
+  outline-color: #f900b2;
 }
 .main ::placeholder {
   color: #8e8ea0;
   opacity: 1;
 }
 .main input[type="submit"] {
-  padding: 12px 0;
+  vertical-align: top;
+  padding: 12px 12px;
   color: #fff;
-  background-color: #10a37f;
+  background-color: #140054;
   border: none;
   border-radius: 4px;
   text-align: center;
+  font-size: 0.7rem;
   cursor: pointer;
 }
 
 .main .result {
+  width: 80%;
   font-weight: bold;
   margin-top: 40px;
-
+  visibility: hidden;
+  text-align: left;
 }
 
 .main .synonymes {
-width: 90%;
+  text-align: left;
+width: 100%;
+columns: 4 auto;
+}
+
+.main .synonymes a {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .main .query {
-  float: left;
+  /* float: left; */
+  text-align: left;
+    display: inline-block;
+  vertical-align: top;
   font-weight: bold;
   font-size: x-large;
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 margin-left: auto;
+}
+
+.main .query .dots {
+  /* animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite; */
+  vertical-align: top;
+
+  display: inline-block;
+  height: 10px;
+  text-align: left;
+  font-weight: bold;
+  font-size: x-large;
+  
+}
+
+.main .credit {
+
+  position:absolute;
+  bottom:0;
+  margin-bottom: 10px;
+  width:100%;
+  height: 20px;
+  text-align: center;
+  font-weight: normal;
+  font-size: 6pt;
+
 }

@@ -34,11 +34,13 @@ export default async function (req, res) {
       temperature: 0.6,
     });
 
-    const elementsArray = completion.data.choices[0].text.split(', ');
+    // Remove the last dot '.' from the result if OpenAI added it
+    const result = completion.data.choices[0].text.split('.').join('');
+    const elementsArray = result.split(', ');
 
     // res.status(200).json({ result: resultMarkup });
     res.status(200).json({
-      result: completion.data.choices[0].text,
+      result: result,
       elements: elementsArray,
       query: query,
     });
