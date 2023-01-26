@@ -5,6 +5,12 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+function uniq(a) {
+  return a.sort().filter(function (item, pos, ary) {
+    return !pos || item != ary[pos - 1];
+  });
+}
+
 export default async function (req, res) {
   if (!configuration.apiKey) {
     res.status(500).json({
@@ -31,14 +37,13 @@ export default async function (req, res) {
       model: 'text-davinci-003',
       prompt: generatePrompt(query),
       max_tokens: 300,
-      temperature: 0.6,
+      temperature: 0,
     });
 
     // Remove the last dot '.' from the result if OpenAI added it
     const result = completion.data.choices[0].text.split('.').join('');
-    const elementsArray = result.split(', ');
+    const elementsArray = uniq(result.split(', '));
 
-    // res.status(200).json({ result: resultMarkup });
     res.status(200).json({
       result: result,
       elements: elementsArray,
@@ -63,7 +68,7 @@ export default async function (req, res) {
 function generatePrompt(requete) {
   // const capitalizedAnimal =
   //   requete.toUpperCase() + requete.slice(1).toLowerCase();
-  return `Suggérer des synonymes pour le mot suivant.
+  return `Suggérer des synonymes pour le mot suivant. Les synonymes doivent être séparés par une virgule et un espace. Les synonymes ne doivent pas contenir de répétition.  
 Mot: Travailler
 Synonymes: œuvrer, s'activer, s'employer, opérer, fonctionner, s'efforcer, s'appliquer, s'exercer, s'occuper, s'atteller, s'adonner, s'astreindre, se consacrer
 Mot: ouvrage
@@ -72,6 +77,10 @@ Mot: murmurer
 Synonymes: babiller,  bafouiller,  balbutier,  baragouiner,  bougonner,  bourdonner,  bredouiller,  broncher,  bruire,  chanter,  couler,  dire,  frémir,  fredonner,  froufrouter,  gémir,  gazouiller,  geindre,  gringotter,  grognasser,  grogner,  grognonner,  grommeler,  gronder,  groumer,  mâchouiller,  marmonner,  marmotter,  maronner,  maugréer,  parler bas,  prononcer,  protester,  râler,  rechigner,  renauder,  rogner,  rognonner,  ronchonner,  ronfler,  rouscailler,  rouspéter,  se lamenter,  se plaindre,  souffler
 Mot: chanter
 Synonymes: beugler, bourdonner, brailler, chansonner, chantonner, conter, crier, débiter, dégoiser, détonner, dire, entonner, exécuter, exalter, extorquer, fredonner, gazouiller, glorifier, goualer, grésiller, gringotter, gueuler, jaser, louer, machicoter, miauler, murmurer, nasiller, nuancer, pépier, piauler, plaire, proclamer, psalmodier, publier, rabâcher, réciter, raconter, radoter, railler, ramager, répéter, redire, roucouler, s'égosiller, se glorifier, seriner, se vanter, siffler, solfier, sourire, striduler, ténoriser, tirer, vocaliser
+Mot: affaire
+Synonymes: accident, accrochage, accusation, échange, économie, action, activité, agence, agité, énigme, épisode, établissement, atelier, attaque, attentif, événement, aventure, bagarre, barda, baroud, bataclan, bataille, bazar, besogne, besoin, bidule, boîte, bordel, bourse, boutique, bureau, business, but, cabinet, cas, cause, chantier, charge, choc, chose, circonstance, comédie, combat, combinaison, commerce, complication, compte, conjoncture, contestation, controverse, convention, débat, dégourdi, déluré, démêlé, danger, devoir, difficulté, discussion, dispute, dossier, duel, embarras, emmanchure, empressé, engagement, ennui, entreprise, espèce, façon, fait, fait-divers, finance, firme, frétillant, fringant, galant, galanterie, grabuge, guerre, guilleret, histoire, holding, industrie, litige, machin, magasin, marché, mésaventure, négoce, obligation, occasion, occupé, occupation, oeuvre, opération, organisme, politique, préoccupation, problème, procès, querelle, question, rôle, rencontre, sémillant, scandale, situation, société, souci, soucieux, spéculation, tâche, tracas, traite, transaction, travail, truc, trust, usine
+Mot: chose
+Synonymes: bijou, bric-à-brac, action, affaire, article, événement, babiole, bibelot, bagatelle, batifolage, bidule, bien, bricole, capital, circonstance, condition, engin, fait, fourbi, instrument, machin, objet, phénomène, possession, réalité, richesse, rien, sujet, truc
 Mot: ${requete}
 Synonymes:`;
 }

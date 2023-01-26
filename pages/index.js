@@ -7,7 +7,9 @@ export default function Home() {
   const NB_SYN_COLUMNS = 5;
   const [queryInput, setQueryInput] = useState('');
   const [queryString, setQueryString] = useState('');
-  const [result, setResult] = useState('');
+  //const [result, setResult] = useState('');
+  const [emptyInputError, setEmptyInputError] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
   const [elements, setElements] = useState([]);
   const [animIndex, setAnimIndex] = useState(-1);
   const [fetchInProgress, setFetchInProgress] = useState(false);
@@ -23,11 +25,23 @@ export default function Home() {
 
   useEffect(() => {
     queryInputRef.current.focus();
+    setPageLoaded(true);
   }, []);
 
   useEffect(() => {
+    if (emptyInputError) {
+      document.getElementById('error').style.visibility = 'visible';
+      document.getElementById('queryInput').style.border = '3px solid red';
+    } else {
+      document.getElementById('error').style.visibility = 'hidden';
+      document.getElementById('queryInput').style.border = '1px solid #ccc';
+    }
+  }, [emptyInputError]);
+
+  useEffect(() => {
+    if (pageLoaded) executeQuery();
+
     if (queryString.trim().length != 0) {
-      executeQuery();
       document.getElementById('result').style.visibility = 'visible';
     } else {
       document.getElementById('result').style.visibility = 'hidden';
@@ -72,7 +86,7 @@ export default function Home() {
           new Error(`Request failed with status ${response.status}`)
         );
       }
-      setResult(data.result);
+      //setResult(data.result);
       setElements(data.elements);
       setQueryInput('');
       setFetchInProgress(false);
@@ -94,9 +108,22 @@ export default function Home() {
     }
   }
 
+  function onChange(event) {
+    setQueryInput(event.target.value);
+    if (event.target.value.length > 0) {
+      setEmptyInputError(false);
+    }
+  }
   function onSubmit(event) {
     event.preventDefault();
-    updateQuery(queryInput);
+    if (queryInput.trim().length == 0) {
+      setEmptyInputError(true);
+      return;
+    } else {
+      setEmptyInputError(false);
+      updateQuery(queryInput);
+    }
+    // executeQuery();
   }
 
   return (
@@ -108,13 +135,19 @@ export default function Home() {
       <main className={styles.main}>
         {/* <img src="/dog.png" className={styles.icon} /> */}
         <h3>Synonymes</h3>
+        <div className={styles.error} id="error">
+          Entrer un mot ou un expression
+        </div>
         <form onSubmit={onSubmit}>
           <input
             type="text"
             name="query"
             ref={queryInputRef}
             value={queryInput}
-            onChange={(e) => setQueryInput(e.target.value)}
+            id="queryInput"
+            onChange={(e) => {
+              onChange(e);
+            }}
           />
           <input type="submit" value="Trouver" />
         </form>
