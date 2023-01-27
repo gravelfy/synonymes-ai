@@ -1,76 +1,87 @@
 @font-face {
-  font-family: "ColfaxAI";
-  src: url(https://cdn.openai.com/API/fonts/ColfaxAIRegular.woff2)
-      format("woff2"),
-    url(https://cdn.openai.com/API/fonts/ColfaxAIRegular.woff) format("woff");
+  font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  src: url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: "ColfaxAI";
-  src: url(https://cdn.openai.com/API/fonts/ColfaxAIBold.woff2) format("woff2"),
-    url(https://cdn.openai.com/API/fonts/ColfaxAIBold.woff) format("woff");
-  font-weight: bold;
-  font-style: normal;
-}
+
 .main,
 .main input {
-  font-size: 16px;
+
+    font-size: 16px;
   line-height: 24px;
   color: #353740;
-  font-family: "ColfaxAI", Helvetica, sans-serif;
+  font-family: "Roboto", Helvetica, sans-serif;
 }
+
 .main {
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
-  height: 100vh;
+  padding-top: 30px;
+  height: 88vh;
+  width: 100%;
 }
-.main .icon {
-  width: 34px;
-}
+
 .main h3 {
   font-size: 32px;
-  line-height: 40px;
+  line-height: 30px;
   font-weight: bold;
   color: #202123;
-  margin: 16px 0 40px;
+  margin: 30px 0 40px;
 }
+
 .main form {
-  align-items: center;
+  width:80%;
+  text-align: center;
   display: inline-block;
-  /* flex-direction: column; */
-   /* width: 100%;  */
+
 }
+
 .main input[type="text"] {
   font-size: 0.7rem;
 vertical-align: top;
-/* width: 320px; */
-  padding: 12px 16px;
+ width: 60%; 
+  padding: 10px 10px; 
   border: 1px solid #140054;
-  border-radius: 4px;
-  margin-bottom: 24px;
+  border-radius: 4px 0px 0px 4px;
+  margin-bottom: 20px;
   outline-color: #f900b2;
 }
+
+.main input:focus {
+   box-shadow: 0 0 2px 0 #7e7e7e; 
+  outline: none !important;
+  border-color: #f900b2;
+}
+
 .main ::placeholder {
   color: #8e8ea0;
   opacity: 1;
 }
+
 .main input[type="submit"] {
+  background:url(/magnifier.svg) no-repeat center center;
+  background-size: 20px;
+  width: 45px;
+  height: 45px;
   vertical-align: top;
-  padding: 12px 12px;
+  padding: 10px 10px;
   color: #fff;
-  background-color: #140054;
+  background-color: #DDDDDD;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px 4px 4px 0px;
   text-align: center;
   font-size: 0.7rem;
   cursor: pointer;
 }
+
 .main .error {
   visibility: hidden;
 }
+
 .main .result {
   width: 80%;
   font-weight: bold;
@@ -92,6 +103,7 @@ columns: 4 auto;
      column-count: 3;
   }
 }
+
 @media(max-width: 600px) {
   .main .synonymes {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */
@@ -114,35 +126,29 @@ columns: 4 auto;
 }
 
 .main .query {
-  /* float: left; */
   text-align: left;
-    display: inline-block;
+  display: inline-block;
   vertical-align: top;
   font-weight: bold;
   font-size: x-large;
   margin-top: 20px;
   margin-bottom: 20px;
-margin-left: auto;
+  margin-left: auto;
 }
 
 .main .query .dots {
-  /* animation: blink-animation 1s steps(5, start) infinite;
-  -webkit-animation: blink-animation 1s steps(5, start) infinite; */
   vertical-align: top;
-  display: inline-block;
-  height: 10px;
+  display: inline-block;  
   text-align: left;
   font-weight: bold;
   font-size: x-large;
-  
 }
 
 .main .credit {
   position:absolute;
   bottom:0;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   width:100%;
-  height: 20px;
   text-align: center;
   font-weight: normal;
   font-size: 5pt;
