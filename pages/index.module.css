@@ -41,7 +41,6 @@
 }
 
 .main input[type="text"] {
-  font-size: 0.7rem;
 vertical-align: top;
  width: 60%; 
   padding: 10px 10px; 
@@ -74,7 +73,6 @@ vertical-align: top;
   border: none;
   border-radius: 0px 4px 4px 0px;
   text-align: center;
-  font-size: 0.7rem;
   cursor: pointer;
 }
 
