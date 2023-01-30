@@ -35,6 +35,7 @@ export default async function (req, res) {
   try {
     const completion = await openai.createCompletion({
       model: 'text-davinci-003',
+      // model: 'text-babbage-001',
       prompt: generatePrompt(query),
       max_tokens: 300,
       temperature: 0,

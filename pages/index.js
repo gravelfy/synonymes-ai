@@ -123,17 +123,15 @@ export default function Home() {
       setEmptyInputError(false);
       updateQuery(queryInput);
     }
-    // executeQuery();
   }
 
   return (
     <div>
       <Head>
         <title>Synonymes</title>
-        <link rel="icon" href="/dog.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
       <main className={styles.main}>
-        {/* <img src="/dog.png" className={styles.icon} /> */}
         <h3>Synonymes</h3>
         <div className={styles.error} id="error">
           Entrer un mot ou un expression
@@ -149,7 +147,7 @@ export default function Home() {
               onChange(e);
             }}
           />
-          <input type="submit" value="Trouver" />
+          <input type="submit" value="" />
         </form>
         <div className={styles.result} id="result">
           <div className={styles.query}>
