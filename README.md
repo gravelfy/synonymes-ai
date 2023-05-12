@@ -2,10 +2,6 @@
 
 This app is a linguistic tool based on OpenAI API. It allows you to find synonyms in the French language for a given word or sentence. It is a work in progress, and it is not intended to be used in production.
 
-## Demo
-
-You can try the app [here](https://gravelfy.github.io/synonymes-ai/).
-
 ## How to use it
 
 Just type some word and voilà! You will get a list of synonyms for the word you typed. You can also type a sentence, and the app will try to find French synonyms for each word in the sentence.
