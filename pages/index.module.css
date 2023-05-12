@@ -87,7 +87,7 @@ vertical-align: top;
 .main .result {
   width: 80%;
   font-weight: bold;
-  margin-top: 40px;
+  margin-top: 60px;
   visibility: hidden;
   text-align: left;
 }
@@ -151,7 +151,7 @@ columns: 4 auto;
  /*background-color: #fff;*/
  color: #999999;
   bottom:0;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   width:100%;
   text-align: center;
   font-weight: normal;

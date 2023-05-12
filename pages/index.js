@@ -7,7 +7,7 @@ export default function Home() {
   const NB_SYN_COLUMNS = 5;
   const [queryInput, setQueryInput] = useState('');
   const [queryString, setQueryString] = useState('');
-  //const [result, setResult] = useState('');
+
   const [emptyInputError, setEmptyInputError] = useState(false);
   const [pageLoaded, setPageLoaded] = useState(false);
   const [elements, setElements] = useState([]);
@@ -19,7 +19,6 @@ export default function Home() {
   const queryInputRef = useRef(null);
 
   function updateQuery(el) {
-    // setQueryString((queryString) => el);
     setQueryString(el);
   }
 
@@ -86,18 +85,16 @@ export default function Home() {
           new Error(`Request failed with status ${response.status}`)
         );
       }
-      //setResult(data.result);
+
       setElements(data.elements);
       setQueryInput('');
       setFetchInProgress(false);
     } catch (error) {
-      // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
     }
   }
 
-  // write a function that creates an animation of 3 dots characters flashing at 500 ms intervals
   function animateDots() {
     let dots = document.getElementById('dots');
     let dotsText = dots.innerHTML;
