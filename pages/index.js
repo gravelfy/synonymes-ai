@@ -129,7 +129,7 @@ export default function Home() {
         <link rel="icon" href="/icon.png" />
       </Head>
       <main className={styles.main}>
-        <h3>Synonymes</h3>
+        <h1>Synonymes</h1>
         <div className={styles.error} id="error">
           Entrer un mot ou un expression
         </div>
@@ -153,21 +153,27 @@ export default function Home() {
           </div>
           <div className={styles.synonymes}>
             {elements.map((item, index) => (
-              <div key={index.toString()}>
-                <a
-                  key={index.toString()}
-                  onClick={() => {
-                    updateQuery(item);
-                  }}
-                >
-                  {item}
-                </a>
+              <div className={styles.column}>
+                <div className={styles.itemcontainer} key={index.toString()}>
+                  <a
+                    key={index.toString()}
+                    onClick={() => {
+                      updateQuery(item);
+                    }}
+                  >
+                    {item}
+                  </a>
+                </div>
               </div>
             ))}
           </div>
         </div>
         <div className={styles.credit}>
-          2023 François Y. Gravel - Fabriqué avec: OpenAI API, React & Next.js
+          2023 François Y. Gravel - Fabriqué avec: OpenAI API, React & Next.js -
+          Repo:{' '}
+          <a href="https://github.com/gravelfy/synonymes-ai">
+            https://github.com/gravelfy/synonymes-ai
+          </a>
         </div>
       </main>
     </div>
