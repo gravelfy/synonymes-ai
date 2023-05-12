@@ -27,3 +27,6 @@ yarn-error.log*
 .env
 .env.dev
 .env.example
+
+# azure config
+.azure/config
